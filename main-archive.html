@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+
+        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+        <link rel="stylesheet" href="/style/main-archive-style.css" />
+        <script src="/script/main-archive-script.js" defer></script>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            sizes="96x96"
+            href="html/images/favicon-96x96.png"
+        />
+        <link
+            rel="apple-touch-icon"
+            sizes="180x180"
+            href="html/images/apple-touch-icon.png"
+        />
+
+        <title>Fetcher - Archive</title>
+    </head>
+    <body>
+        <header class="archive-header">
+            <img
+                class="fetcher-logo-small"
+                src="html/images/fetcher-transperent-logo-for-black-without-name-bg.svg"
+                alt="Fetcher logo"
+            />
+            <h1 class="archive-title">
+                Archive <span id="package-counter"></span>
+            </h1>
+
+            <div class="search-actions-row">
+                <input
+                    type="text"
+                    class="search-input"
+                    placeholder="⌕    Search packages (e.g., zmath)"
+                />
+                <button
+                    type="button"
+                    id="open-add-form-btn"
+                    class="action-icon-btn"
+                    title="Suggest a New Library"
+                >
+                    +
+                </button>
+                <button
+                    type="button"
+                    id="open-update-form-btn"
+                    class="action-icon-btn"
+                    title="Update Existing Library"
+                >
+                    ↻
+                </button>
+                <button
+                    type="button"
+                    id="open-settings-btn"
+                    class="action-icon-btn"
+                    title="Settings"
+                >
+                    ⚙
+                </button>
+                <select id="sort-select" class="action-select">
+                    <option value="default">Default</option>
+                    <option value="az">A → Z</option>
+                    <option value="za">Z → A</option>
+                    <option value="newest">Newest</option>
+                </select>
+            </div>
+        </header>
+        <hr />
+
+        <main class="packages-list"></main>
+
+        <footer class="archive-footer">
+            <p>Zig is pure determination.</p>
+        </footer>
+
+        <div id="sidebar-overlay" class="sidebar-overlay" style="display: none">
+            <div id="sidebar-menu" class="sidebar-menu">
+                <button
+                    type="button"
+                    id="close-sidebar-btn"
+                    class="close-sidebar-btn"
+                >
+                    ×
+                </button>
+
+                <form
+                    action="https://formspree.io/f/mpqgogbk"
+                    method="POST"
+                    class="sidebar-form"
+                >
+                    <h3
+                        id="form-title"
+                        style="color: #f8a300; margin-top: 0; font-size: 24px"
+                    >
+                        Suggest a New Zig Package
+                    </h3>
+                    <input
+                        type="hidden"
+                        name="request_type"
+                        id="form-request-type"
+                        value="New Package Submission"
+                    />
+
+                    <label for="pkg-name">Package Name:</label>
+                    <input
+                        id="pkg-name"
+                        type="text"
+                        name="name"
+                        class="search-input"
+                        style="margin: 8px 0 16px 0"
+                        placeholder="e.g., zmath"
+                        required
+                    />
+
+                    <label for="pkg-tags">Tags (comma separated):</label>
+                    <input
+                        id="pkg-tags"
+                        type="text"
+                        name="tags"
+                        class="search-input"
+                        style="margin: 8px 0 16px 0"
+                        placeholder="e.g., math, 3d, games"
+                        required
+                    />
+
+                    <label for="pkg-desc">Short Description:</label>
+                    <input
+                        id="pkg-desc"
+                        type="text"
+                        name="description"
+                        class="search-input"
+                        style="margin: 8px 0 16px 0"
+                        placeholder="A fast 3D math library..."
+                        required
+                    />
+
+                    <label for="pkg-cmd">Installation Command:</label>
+                    <input
+                        id="pkg-cmd"
+                        type="text"
+                        name="command"
+                        class="search-input"
+                        style="margin: 8px 0 16px 0"
+                        placeholder="zig fetch --save..."
+                        required
+                    />
+
+                    <label for="pkg-build">build.zig configuration:</label>
+                    <textarea
+                        id="pkg-build"
+                        name="build_config"
+                        class="search-input"
+                        style="
+                            margin: 8px 0 24px 0;
+                            height: 120px;
+                            resize: vertical;
+                            font-family: &quot;Fira Code&quot;, monospace;
+                        "
+                        placeholder="const library = b.dependency(..."
+                        required
+                    ></textarea>
+
+                    <label for="pkg-readme">Documentation (Markdown):</label>
+                    <textarea
+                        id="pkg-readme"
+                        name="readme_markdown"
+                        class="search-input"
+                        style="
+                            margin: 8px 0 24px 0;
+                            height: 150px;
+                            resize: vertical;
+                            font-family: monospace;
+                        "
+                        placeholder="# Usage \n Here is how you can use this library..."
+                        required
+                    ></textarea>
+
+                    <button
+                        type="submit"
+                        class="copy-btn"
+                        style="
+                            background-color: #f8a300;
+                            color: #111317;
+                            width: 100%;
+                            padding: 14px;
+                            font-size: 16px;
+                            font-weight: 600;
+                            border-radius: 8px;
+                        "
+                    >
+                        Send to Maintainer
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div
+            id="details-sidebar-overlay"
+            class="sidebar-overlay"
+            style="display: none"
+        >
+            <div class="sidebar-menu" style="max-width: 600px">
+                <button
+                    type="button"
+                    id="close-details-btn"
+                    class="close-sidebar-btn"
+                >
+                    ×
+                </button>
+
+                <div
+                    class="details-content"
+                    style="
+                        margin-top: 20px;
+                        display: flex;
+                        flex-direction: column;
+                        height: calc(100% - 60px);
+                    "
+                >
+                    <div
+                        class="package-header"
+                        style="
+                            margin-bottom: 15px;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        "
+                    >
+                        <h2
+                            id="det-name"
+                            style="color: #f8a300; margin: 0; font-size: 32px"
+                        >
+                            Package Name
+                        </h2>
+                        <span
+                            id="det-version"
+                            class="package-version"
+                            style="font-size: 16px"
+                            >v0.0.0</span
+                        >
+                    </div>
+
+                    <p
+                        id="det-desc"
+                        style="
+                            color: #cccccc;
+                            line-height: 1.6;
+                            font-size: 16px;
+                            margin-bottom: 25px;
+                        "
+                    >
+                        Description
+                    </p>
+
+                    <div
+                        class="tab-buttons-row"
+                        style="
+                            display: flex;
+                            gap: 10px;
+                            margin-bottom: 20px;
+                            border-bottom: 1px solid #30363d;
+                            padding-bottom: 10px;
+                        "
+                    >
+                        <button
+                            type="button"
+                            id="tab-install-btn"
+                            class="copy-btn active-tab-btn"
+                            style="
+                                margin: 0;
+                                width: auto;
+                                height: auto;
+                                padding: 8px 16px;
+                            "
+                        >
+                            Setup
+                        </button>
+                        <button
+                            type="button"
+                            id="tab-readme-btn"
+                            class="copy-btn"
+                            style="
+                                margin: 0;
+                                width: auto;
+                                height: auto;
+                                padding: 8px 16px;
+                            "
+                        >
+                            Documentation
+                        </button>
+                    </div>
+
+                    <div
+                        class="tabs-content-container"
+                        style="
+                            flex-grow: 1;
+                            overflow-y: auto;
+                            padding-right: 5px;
+                        "
+                    >
+                        <div id="section-install">
+                            <span
+                                style="
+                                    font-size: 13px;
+                                    color: gray;
+                                    display: block;
+                                    margin-bottom: 5px;
+                                "
+                                >Install Command:</span
+                            >
+                            <div
+                                class="install-box"
+                                style="margin-top: 0; margin-bottom: 20px"
+                            >
+                                <code id="det-cmd" class="install-code"
+                                    >zig fetch...</code
+                                >
+                                <button type="button" class="copy-btn">
+                                    Copy
+                                </button>
+                            </div>
+
+                            <span
+                                style="
+                                    font-size: 13px;
+                                    color: gray;
+                                    display: block;
+                                    margin-bottom: 5px;
+                                "
+                                >Add to build.zig:</span
+                            >
+                            <div
+                                class="install-box"
+                                style="
+                                    margin-top: 0;
+                                    background-color: var(--code-bg);
+                                "
+                            >
+                                <pre
+                                    style="
+                                        margin: 0;
+                                        width: 100%;
+                                        overflow-x: auto;
+                                        background: transparent;
+                                        padding: 0;
+                                    "
+                                ><code id="det-build" style="font-family: 'Fira Code', monospace; font-size: 13px; line-height: 1.5; white-space: pre;"></code></pre>
+                                <button type="button" class="copy-btn">
+                                    Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <div id="section-readme" style="display: none">
+                            <div
+                                id="det-readme-content"
+                                class="markdown-body-custom"
+                            ></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div
+            id="settings-sidebar-overlay"
+            class="sidebar-overlay"
+            style="display: none"
+        >
+            <div id="settings-sidebar-menu" class="sidebar-menu">
+                <button
+                    type="button"
+                    id="close-settings-btn"
+                    class="close-sidebar-btn"
+                >
+                    ×
+                </button>
+
+                <div class="sidebar-form" style="margin-top: 20px">
+                    <h3 style="color: #f8a300; margin-top: 0; font-size: 24px">
+                        Settings
+                    </h3>
+
+                    <div
+                        style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            padding: 16px 0;
+                            border-bottom: 1px solid #30363d;
+                        "
+                    >
+                        <div>
+                            <div
+                                style="
+                                    font-size: 16px;
+                                    color: #e3e6ed;
+                                    font-weight: 500;
+                                "
+                            >
+                                Appearance
+                            </div>
+                            <div style="font-size: 13px; color: gray">
+                                Dark / Light mode
+                            </div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="theme-toggle" />
+                            <span class="slider round"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="toast" class="toast">Copied to clipboard!</div>
+    </body>
+</html>

@@ -1,0 +1,98 @@
+* {
+    font-family: "Fira Sans", sans-serif;
+}
+
+:root {
+    --bg-color: #111317;
+    --text-color: white;
+    --button-text: #111317;
+}
+
+body.light-mode {
+    --bg-color: #f6f8fa;
+    --text-color: #111317;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+}
+
+.fetcher-logo {
+    width: 400px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    transition:
+        transform 0.3s ease,
+        filter 0.3s ease;
+    filter: invert(0);
+}
+
+body.light-mode .fetcher-logo {
+    filter: invert(1);
+}
+
+.fetcher-logo:hover {
+    transform: scale(1.03) rotate(2deg);
+}
+
+.header-name-text {
+    text-align: center;
+    font-size: 50px;
+}
+
+.anytext {
+    text-align: center;
+    max-width: 650px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.anytext a {
+    color: #f8a300;
+    text-decoration: none;
+}
+
+.anytext a:hover {
+    text-decoration: underline;
+    color: #f8b300;
+}
+
+button {
+    background-color: #f8a300;
+    color: #111317;
+    font-family: "Fira Sans", sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    padding: 14px 36px;
+    display: inline-block;
+    box-shadow: 0 4px 20px rgba(248, 163, 0, 0.15);
+    transition:
+        background-color 0.2s ease-in-out,
+        transform 0.1s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #ffb31a;
+    box-shadow: 0 6px 24px rgba(248, 163, 0, 0.25);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+#start-exploring {
+    margin: 35px auto 0 auto;
+}

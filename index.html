@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="stylesheet" href="/style/style.css" />
+        <script src="/script/script.js" defer></script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+            rel="stylesheet"
+        />
+        <title>Fetcher - Welcome</title>
+    </head>
+    <body>
+        <img
+            class="fetcher-logo"
+            src="html/images/fetcher-transperent-logo-for-black-bg.svg"
+            alt="Fetcher logo with mascot"
+        />
+        <h1 class="header-name-text">Fetcher - Find libraries for Zig</h1>
+
+        <p class="anytext">
+            <i>Fetcher</i> is a <a href="https://ziglang.org">Zig</a> library
+            registry that saves you from the <strong>headache</strong> and
+            <strong>despair</strong> of searching for dependencies. It has it
+            all: the packages you need, smart search, and installation
+            instructions. <i>The Zig ecosystem is set to thrive.</i>
+        </p>
+        <p class="anytext"><strong>Embrace the niche!</strong></p>
+
+        <button type="button" id="start-exploring">Start exploring</button>
+
+        <script>
+            if (localStorage.getItem("theme") === "light") {
+                document.body.classList.add("light-mode");
+            }
+        </script>
+    </body>
+</html>
